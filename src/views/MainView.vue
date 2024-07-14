@@ -1,41 +1,53 @@
 <script setup lang="ts">
-const items = [
-  {
-    name: 'green',
-    count: 4,
-    position: '1 1',
-    image: '/items/green.png'
-  },
-  {
-    name: 'yellow',
-    count: 2,
-    position: '2 1',
-    image: '/items/yellow.png'
-  },
-  {
-    name: 'blue',
-    count: 5,
-    position: '3 1',
-    image: '/items/blue.png'
+import { ref, onMounted } from 'vue'
+import { useInventoryStore } from '@/stores/items'
+
+const store = useInventoryStore()
+
+onMounted(() => {
+  store.load()
+})
+
+let draggedItemIndex: number | null = null
+
+function dragStart(index: number): void {
+  draggedItemIndex = index
+}
+
+function drop(index: number): void {
+  if (draggedItemIndex !== null) {
+    const itemToMove = store.grid[draggedItemIndex]
+    store.setItem(draggedItemIndex, null)
+    store.setItem(index, itemToMove)
   }
-]
+}
+
+function onItemClick(itemId: number) {}
 </script>
 
 <template>
   <div class="main-view">
     <div class="center-view">
-      <div class="item-info">
+      <div class="main-info">
         <img src="/images/Img.png" alt="" class="info-image" />
 
         <img src="/images/info-skeleton.png" alt="" />
       </div>
       <div class="main-inventory">
-        <div v-for="item in 25" class="one-item">
-          <div v-if="item - 1 in items" class="actual-item">
+        <div
+          v-for="(item, index) in store.grid"
+          :key="index"
+          class="one-item"
+          :draggable="item !== null"
+          @dragstart="dragStart(index)"
+          @dragover.prevent
+          @drop="drop(index)"
+        >
+          <div v-if="item" class="actual-item">
             <div class="item-count">
-              {{ items[item - 1].count }}
+              {{ item.count }}
             </div>
-            <img :src="items[item - 1].image" alt="" />
+            <img :src="item.image" alt="" />
           </div>
         </div>
       </div>
@@ -62,7 +74,7 @@ const items = [
     display: flex;
     gap: 24px;
 
-    .item-info {
+    .main-info {
       width: 236px;
       height: 500px;
       border: 1px solid #4d4d4d;
@@ -90,7 +102,7 @@ const items = [
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid #3c3c43;
+        border: 0.5px solid #3c3c43;
 
         .actual-item {
           .item-count {
