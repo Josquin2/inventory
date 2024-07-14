@@ -1,0 +1,16 @@
+@import 'fonts';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+button,
+input:focus {
+  outline-width: 0;
+}
+
+html {
+  font-family: 'Inter';
+}

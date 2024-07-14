@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useInventoryStore } from '@/stores/items'
+import ItemModal from '@/components/ItemModal.vue'
 
 const store = useInventoryStore()
 
@@ -22,7 +23,13 @@ function drop(index: number): void {
   }
 }
 
-function onItemClick(itemId: number) {}
+const clickedItem = ref({})
+
+function onItemClick(item: object) {
+  console.log(item)
+  clickedItem.value = item
+  document.getElementById('modal')?.classList.remove('hidden')
+}
 </script>
 
 <template>
@@ -43,7 +50,7 @@ function onItemClick(itemId: number) {}
           @dragover.prevent
           @drop="drop(index)"
         >
-          <div v-if="item" class="actual-item">
+          <div v-if="item" class="actual-item" @click="onItemClick(item)">
             <div class="item-count">
               {{ item.count }}
             </div>
@@ -51,6 +58,8 @@ function onItemClick(itemId: number) {}
           </div>
         </div>
       </div>
+      <!-- Modal -->
+      <ItemModal :item="clickedItem" />
     </div>
     <div class="footer">
       <img src="/images/footer-skeleton.png" alt="" />
@@ -105,6 +114,8 @@ function onItemClick(itemId: number) {}
         border: 0.5px solid #3c3c43;
 
         .actual-item {
+          cursor: pointer;
+
           .item-count {
             width: 16px;
             height: 16px;
@@ -118,6 +129,7 @@ function onItemClick(itemId: number) {}
             margin-top: 63px;
             margin-left: 63px;
             font-size: 10px;
+            font-weight: 200;
           }
         }
       }
