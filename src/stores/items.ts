@@ -41,7 +41,11 @@ export const useInventoryStore = defineStore({
       localStorage.setItem('grid', JSON.stringify(this.grid))
     },
     setItem(index: number, item: ItemType | null) {
+      if (item != null) {
+        item.position = index + 1
+      }
       this.grid[index] = item
+
       this.save()
     }
   }

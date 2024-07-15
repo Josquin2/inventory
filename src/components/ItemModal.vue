@@ -12,7 +12,11 @@ const store = useInventoryStore()
 
 function onCloseButtonClick() {
   deleteCount.value = undefined
-  document.getElementById('modal')?.classList.add('hidden')
+  const modal = document.getElementById('modal')
+  if (modal) {
+    modal.classList.add('hidden')
+    modal.classList.remove('slide-in')
+  }
 
   if (!document.getElementById('pop-up')?.classList.contains('hidden')) {
     document.getElementById('pop-up')?.classList.add('hidden')
@@ -47,7 +51,7 @@ function onConfirmButtonClick() {
 </script>
 
 <template>
-  <div class="item-modal hidden" id="modal">
+  <div class="item-modal slide-in hidden" id="modal">
     <div class="close-button" @click="onCloseButtonClick">
       <img src="/icons/footer-close.svg" alt="" />
     </div>
@@ -66,7 +70,7 @@ function onConfirmButtonClick() {
     <span class="bottom-divider"></span>
 
     <div class="delete-item">
-      <div class="delete-pop-up hidden" id="pop-up">
+      <div class="delete-pop-up slide-up hidden" id="pop-up">
         <input type="text" placeholder="Введите количество" v-model="deleteCount" />
         <div class="buttons">
           <button class="cancel" @click="onCancelButtonClick">Отмена</button>
@@ -94,6 +98,7 @@ function onConfirmButtonClick() {
   flex-direction: column;
   align-items: center;
   padding: 8px;
+  overflow: hidden;
 
   .close-button {
     cursor: pointer;
@@ -193,5 +198,30 @@ function onConfirmButtonClick() {
       }
     }
   }
+}
+@keyframes slideIn {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slide-up 0.4s ease-out;
+}
+
+.slide-in {
+  animation: slideIn 0.5s ease-out;
 }
 </style>

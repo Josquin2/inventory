@@ -28,7 +28,11 @@ const clickedItem = ref({})
 function onItemClick(item: object) {
   console.log(item)
   clickedItem.value = item
-  document.getElementById('modal')?.classList.remove('hidden')
+  const modal = document.getElementById('modal')
+  if (modal) {
+    modal.classList.remove('hidden')
+    modal.classList.add('slide-in')
+  }
 }
 </script>
 
@@ -54,7 +58,7 @@ function onItemClick(item: object) {
             <div class="item-count">
               {{ item.count }}
             </div>
-            <img :src="item.image" alt="" />
+            <img :src="item.image" alt="" draggable="false" />
           </div>
         </div>
       </div>
@@ -78,6 +82,8 @@ function onItemClick(item: object) {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  position: relative;
+  overflow-y: hidden;
 
   .center-view {
     display: flex;
