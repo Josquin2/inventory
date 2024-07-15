@@ -9,19 +9,19 @@ export const useInventoryStore = defineStore({
         name: 'green',
         count: 4,
         position: 1,
-        image: '/items/green.png'
+        image: 'items/green.png'
       },
       {
         name: 'yellow',
         count: 2,
         position: 2,
-        image: '/items/yellow.png'
+        image: 'items/yellow.png'
       },
       {
         name: 'blue',
         count: 5,
         position: 3,
-        image: '/items/blue.png'
+        image: 'items/blue.png'
       }
     ] as ItemType[]
   }),
