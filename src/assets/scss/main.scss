@@ -1,5 +1,9 @@
 @import 'fonts';
 
+// PAGES
+@import url(/src/assets/scss/pages/main-page.scss);
+@import url(/src/assets/scss/pages/item-modal.scss);
+
 * {
   margin: 0;
   padding: 0;
@@ -13,4 +17,30 @@ input:focus {
 
 html {
   font-family: 'Inter';
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slide-up 0.4s ease-out;
+}
+
+.slide-in {
+  animation: slideIn 0.5s ease-out;
 }
